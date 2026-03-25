@@ -1,0 +1,10 @@
+# Model checkpoints — too large for GitHub (100MB limit, .pt files are ~150MB)
+checkpoints/
+
+# Training data — re-downloadable, no need to track
+shakespeare.txt
+
+# Python
+__pycache__/
+*.pyc
+.DS_Store
