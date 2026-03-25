@@ -11,18 +11,18 @@ from torch.nn import functional as F
 # ---- Hyperparameters ----
 batch_size         = 32
 block_size         = 128
-max_iters          = 10000
+max_iters          = 5000   # Enough to compare configs without waiting forever.
 eval_interval      = 500
 learning_rate      = 3e-4
 eval_iters         = 200
-n_embd             = 256
-n_head             = 4
+n_embd             = 512   # Try 2: even bigger. head_size = 512/8 = 64.
+n_head             = 8     # Was 6.
 n_layer            = 4
 head_size          = n_embd // n_head
 dropout            = 0.2
 checkpoint_dir     = "checkpoints"
 checkpoint_interval = 1000   # Save a checkpoint every this many steps.
-log_file           = "loss_log.csv"
+log_file           = "loss_log_512_8h.csv"
 
 # MPS = Apple Silicon GPU.
 if torch.backends.mps.is_available():
