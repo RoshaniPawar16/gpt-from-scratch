@@ -34,3 +34,25 @@ MacBook, Apple Silicon, 8GB unified memory. MPS backend for PyTorch.
 ## Files
 - `bigram.py` — Stage 1
 - `transformer.py` — Stage 3, full GPT
+
+### Stage 5 — BPE vs Char tokenizer on mixed corpus
+Corpus: books (Gutenberg), song lyrics, news articles. ~20MB, ~5M chars.
+
+| Metric | Char | BPE |
+|---|---|---|
+| val_loss (raw) | 1.73 | 4.81 |
+| val_bpc (fair comparison) | 2.49 | 2.04 |
+| vocab size | 96 | 8000 |
+| context (chars) | 128 | 436 |
+| tok/s | ~20,000 | ~13,000 |
+
+BPE wins by 18% on BPC. Consistent from step 500 onward, not a fluke.
+
+What I learned:
+- Raw val_loss is misleading across tokenizers. BPC is the honest metric.
+- The context window advantage is real and intentional — that's what you 
+  actually get with BPE in practice.
+- Char output sounds more fluent at surface level. BPE generates real words 
+  but loses coherence over longer spans.
+- We trained BPE fresh on this corpus. A pre-trained modern tokenizer 
+  on historical text would fragment rare words worse.
