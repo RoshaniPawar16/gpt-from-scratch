@@ -22,6 +22,8 @@ MacBook, Apple Silicon, 8GB unified memory. MPS backend for PyTorch.
 - Val loss: 1.54 at 5k steps.
 - Generates valid dialogue structure. Not real Shakespeare but close enough to see it's learning.
 
+![Pipeline diagram](diagram.png)
+
 ### What I learned so far
 - The feed-forward layer does more than attention. Attention decides where to look, FF does the reasoning.
 - Loss table per component is the best way to see what actually matters.
@@ -32,8 +34,13 @@ MacBook, Apple Silicon, 8GB unified memory. MPS backend for PyTorch.
 - Option C: Compare BPE tokenizer vs char tokenizer on same corpus.
 
 ## Files
-- `bigram.py` — Stage 1
+- `bigram.py` — Stage 1, bigram model
 - `transformer.py` — Stage 3, full GPT
+- `download_corpus.py` — Stage 5, pulls books/lyrics/news from HuggingFace
+- `train_bpe.py` — Stage 5, trains BPE tokenizer on corpus
+- `compare.py` — Stage 5, trains char and BPE models and compares
+- `diagram.py` — generates the pipeline diagram
+- `diagram.png` / `diagram.svg` — pipeline diagram
 
 ### Stage 5 — BPE vs Char tokenizer on mixed corpus
 Corpus: books (Gutenberg), song lyrics, news articles. ~20MB, ~5M chars.
