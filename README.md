@@ -88,6 +88,7 @@ BPE generates real vocabulary words. Char model sounds smoother because it can b
 - `download_corpus.py` — Stage 5, pulls books/lyrics/news from HuggingFace
 - `train_bpe.py` — Stage 5, trains BPE tokenizer on corpus
 - `compare.py` — Stage 5, trains char and BPE models and compares
+- `plot_attention.py` — attention weight heatmap from Stage 3 checkpoint
 - `diagram.py` — generates the pipeline diagram
 - `diagram.png` / `diagram.svg` — pipeline diagram
 
@@ -112,5 +113,13 @@ What I learned:
   actually get with BPE in practice.
 - Char output sounds more fluent at surface level. BPE generates real words 
   but loses coherence over longer spans.
-- We trained BPE fresh on this corpus. A pre-trained modern tokenizer 
+- We trained BPE fresh on this corpus. A pre-trained modern tokenizer
   on historical text would fragment rare words worse.
+
+## Attention visualization
+
+Input: `"Hear me, people!"` (16 tokens) through the Stage 3 checkpoint.
+
+![Attention heatmap](plots/attention.png)
+
+No head is uniform. The first token (`H`) acts as a dominant attractor across all 4 layers — most tokens in most heads point back to position 0 as their top attention target, likely because it's always reachable and early training anchors on it. Two heads in Layer 1 (H6, H7) look mostly sequential, each token attending to the one before it. Deeper layers show more scattered patterns with no clear structure beyond the position-0 pull.
