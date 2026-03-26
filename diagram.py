@@ -163,7 +163,7 @@ arr(8.7, 15.65, 7.1, 15.10)
 
 box(6.5, 14.85, 6.0, 0.55,
     "x  =  token_emb  +  pos_emb",
-    "shape (B, T, n_embd) — each token is a dense vector of size 256",
+    "shape (B, T, n_embd) — each token is a dense vector of size 512",
     color=C["xvec"])
 
 arr(6.5, 14.57, 6.5, 14.10)
