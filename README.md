@@ -116,10 +116,18 @@ What I learned:
 - We trained BPE fresh on this corpus. A pre-trained modern tokenizer
   on historical text would fragment rare words worse.
 
-## Attention visualization
+## What the attention heads actually do
 
-Input: `"Hear me, people!"` (16 tokens) through the Stage 3 checkpoint.
+Input: `"Hear me, people!"` — 16 tokens, Stage 3 checkpoint (step 5000).
 
 ![Attention heatmap](plots/attention.png)
 
-No head is uniform. The first token (`H`) acts as a dominant attractor across all 4 layers — most tokens in most heads point back to position 0 as their top attention target, likely because it's always reachable and early training anchors on it. Two heads in Layer 1 (H6, H7) look mostly sequential, each token attending to the one before it. Deeper layers show more scattered patterns with no clear structure beyond the position-0 pull.
+None of the 32 heads are uniform. Every head has at least one token pinned hard to a single position.
+
+**Position 0 dominance.** The first token (`H`) is the most-attended-to position across most heads in all four layers. Most tokens' strongest attention points back to it. This is an artifact of the causal mask — position 0 is always reachable by every token, so the model learns to park attention there when nothing else is more useful.
+
+**Two heads in Layer 1 look sequential.** L1H6 and L1H7 each token mostly attends to the one immediately before it. This is the only interpretable positional pattern visible in the grid.
+
+**Layer 4 has the highest self-attention.** Diagonal means range up to 0.32 in Layer 4. Tokens attending to themselves is more common in the final layer than earlier ones.
+
+**Layer 3 H8 is the most scattered.** Diagonal mean 0.075 — attention is spread across many positions with no obvious focus. It is the least structured head in the model on this input.
